@@ -2,11 +2,33 @@ import React, { Component } from 'react';
 import './ChatInput.scss';
 
 class ChatInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+    };
+  }
+
+  handleInput = (event) => {
+    this.setState({
+      input: event.target.value,
+    });
+  };
+
+  handleSubmit = () => {
+    this.props.onEnter(this.state.input);
+    this.setState({
+      input: '',
+    });
+  };
+
   render() {
     return (
       <footer className="ChatInput">
-        <input type="text" />
-        <button type="button">Send</button>
+        <input value={this.state.input} type="text" onChange={this.handleInput} />
+        <button type="button" onClick={this.handleSubmit}>
+          Send
+        </button>
       </footer>
     );
   }
