@@ -33,14 +33,15 @@ class Chat extends Component {
       role: ROLE.CUSTOMER,
       text,
     };
-    const answerMessage = answersData.find((answer) => answer.tags.includes(text));
-    const answerList = [newMessage];
-    if (answerMessage !== undefined) {
-      answerList.push(answerMessage);
-    }
     this.setState((prev) => ({
-      messages: prev.messages.concat(answerList),
+      messages: prev.messages.concat(newMessage),
     }));
+    const answerMessage = answersData.filter((answer) => answer.tags.includes(text));
+    if (answerMessage !== undefined) {
+      this.setState((prev) => ({
+        messages: prev.messages.concat(answerMessage),
+      }));
+    }
   };
 
   render() {
@@ -49,7 +50,7 @@ class Chat extends Component {
       <main className="Chat">
         <ChatHeader shop={shop} />
         <ChatBox messages={messages} />
-        <ChatInput onEnter={this.postText} />
+        <ChatInput onSubmit={this.postText} />
       </main>
     );
   }
